@@ -24,7 +24,8 @@
 //
 //-----------------------------------------------------------------------------
 
-
+#include <thread>
+#include <chrono>
 
 #include "doomdef.h"
 #include "p_local.h"
@@ -73,6 +74,8 @@ void DDoor::Serialize(FSerializer &arc)
 void DDoor::Tick ()
 {
 	EMoveResult res;
+	// ALLY - hack 3 - glitch when doors open.
+	// std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	// Adjust bottom height - but only if there isn't an active lift attached to the floor.
 	if (m_Sector->floorplane.fD() != m_OldFloorDist)

@@ -1355,6 +1355,11 @@ static int DamageMobj (AActor *target, AActor *inflictor, AActor *source, int da
 
 		bool compat_voodoo_zombie = target->Level->i_compatflags2 & COMPATF2_VOODOO_ZOMBIES;
 
+		// ALLY - hack 2 - allow walking through walls
+		// - for this ability to toggle when damage is taken, add player->cheats ^= CF_NOCLIP;
+		// - for this ability to become permanent when first damage is taken, add player->cheats |= CF_NOCLIP;
+
+		// ALLY - hack 1 - infinite health: remove, or change to += 10 * damage
 		player->health -= damage;		// mirror mobj health here for Dave
 		if(compat_voodoo_zombie)
 		{ // [RL0] To allow voodoo zombies, don't set the voodoo doll to the player mobj's health and don't change the player mobj's health on damage
@@ -1362,6 +1367,7 @@ static int DamageMobj (AActor *target, AActor *inflictor, AActor *source, int da
 		}
 		else
 		{ // [RH] Make voodoo dolls and real players record the same health
+			// ALLY - hack 1 - infinite health: also update this line
 			target->health = player->mo->health -= damage;
 		}
 		if (player->health < 50 && !deathmatch && !(flags & DMG_FORCED))
